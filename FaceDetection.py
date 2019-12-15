@@ -28,6 +28,8 @@ while 1:
             cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (255, 0, 0), 2)
 
     cv2.imshow('img', img)
+
+    # hit the Esc key to escape
     k = cv2.waitKey(30) & 0xff
     if k == 27:
         break
