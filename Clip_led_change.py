@@ -4,7 +4,7 @@ import os
 import numpy as np
 
 # Create a VideoCapture object
-input_file = "WIN_20191125_21_50_14_Pro.mp4"
+input_file = "WIN_20191129_14_32_31_Pro.mp4"
 input_file_no_extension = os.path.splitext(input_file)[0]
 cap = cv2.VideoCapture(input_file)
 
@@ -33,14 +33,14 @@ while (True):
             print("Turned on!")
             start_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 - 3
             end_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 + 3
-            clip_name = "cut_clip_" + str(int(cap.get(cv2.CAP_PROP_POS_MSEC))) + ".mp4"
+            clip_name = input_file_no_extension + "_" + str(int(cap.get(cv2.CAP_PROP_POS_MSEC))) + ".mp4"
             ffmpeg_extract_subclip(input_file, start_time, end_time, targetname=clip_name)
         elif gray_frame[-1, -1] < 128 and prev_led_on:
             prev_led_on = False
             print("Turned off!")
             start_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 - 3
             end_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 + 3
-            clip_name = input_file_no_extension + "_" +str(int(cap.get(cv2.CAP_PROP_POS_MSEC))) + ".mp4"
+            clip_name = input_file_no_extension + "_" + str(int(cap.get(cv2.CAP_PROP_POS_MSEC))) + ".mp4"
             ffmpeg_extract_subclip(input_file, start_time, end_time, targetname=clip_name)
 
     # Break the loop
