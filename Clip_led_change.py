@@ -1,9 +1,12 @@
 import cv2
 from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+import os
 import numpy as np
 
 # Create a VideoCapture object
-cap = cv2.VideoCapture("cut.mp4")
+input_file = "WIN_20191125_21_50_14_Pro.mp4"
+input_file_no_extension = os.path.splitext(input_file)[0]
+cap = cv2.VideoCapture(input_file)
 
 # Check if camera opened successfully
 if (cap.isOpened() == False):
@@ -28,16 +31,17 @@ while (True):
         if gray_frame[-1, -1] >= 128 and not prev_led_on:
             prev_led_on = True
             print("Turned on!")
+            start_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 - 3
+            end_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 + 3
+            clip_name = "cut_clip_" + str(int(cap.get(cv2.CAP_PROP_POS_MSEC))) + ".mp4"
+            ffmpeg_extract_subclip(input_file, start_time, end_time, targetname=clip_name)
         elif gray_frame[-1, -1] < 128 and prev_led_on:
             prev_led_on = False
             print("Turned off!")
             start_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 - 3
             end_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 + 3
-            ffmpeg_extract_subclip("cut.mp4", start_time, end_time, targetname="cut_clip.mp4")
-
-        # Press Q on keyboard to stop recording
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+            clip_name = input_file_no_extension + "_" +str(int(cap.get(cv2.CAP_PROP_POS_MSEC))) + ".mp4"
+            ffmpeg_extract_subclip(input_file, start_time, end_time, targetname=clip_name)
 
     # Break the loop
     else:
