@@ -19,7 +19,7 @@ save_clip = False
 start_time = 0
 end_time = 0
 
-
+print("Searching for clips in the video...")
 while (True):
     ret, frame = cap.read()
     if ret:
@@ -55,4 +55,6 @@ cap.release()
 # Closes all the frames
 cv2.destroyAllWindows()
 
-
+# Remove original file
+os.remove(input_file)
+print("Video Removed!")

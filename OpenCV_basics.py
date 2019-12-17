@@ -2,7 +2,9 @@ import cv2
 import numpy as np
 
 # Create a VideoCapture object
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("WIN_20191201_23_30_29_Pro.mp4")
+
 
 # Check if camera opened successfully
 if (cap.isOpened() == False):
@@ -12,9 +14,10 @@ if (cap.isOpened() == False):
 # We convert the resolutions from float to integer.
 frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
+fps = cap.get(cv2.CAP_PROP_FPS)
 
 # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
-out = cv2.VideoWriter('outpy.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 30, (frame_width, frame_height))
+out = cv2.VideoWriter('outpy.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), fps, (frame_width, frame_height))
 
 while (True):
     ret, frame = cap.read()
@@ -23,6 +26,8 @@ while (True):
 
         # Write the frame into the file 'output.avi'
         out.write(frame)
+
+        print(cap.get(cv2.CAP_PROP_POS_MSEC))
 
         # Display the resulting frame
         cv2.imshow('frame', frame)
