@@ -14,14 +14,15 @@ if (cap.isOpened() == False):
 
 # Prep led state
 prev_led_on = False
+
+save_clip = False
 start_time = 0
 end_time = 0
 
 
 while (True):
     ret, frame = cap.read()
-
-    if ret == True:
+    if ret:
         # # Display the resulting frame
         # cv2.imshow('frame', frame)
 
@@ -30,14 +31,15 @@ while (True):
 
         if gray_frame[-1, -1] >= 128 and not prev_led_on:
             prev_led_on = True
+            save_clip = True
             print("Turned on!")
-            start_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 - 3
-            end_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 + 3
-            clip_name = input_file_no_extension + "_" + str(int(cap.get(cv2.CAP_PROP_POS_MSEC))) + ".mp4"
-            ffmpeg_extract_subclip(input_file, start_time, end_time, targetname=clip_name)
         elif gray_frame[-1, -1] < 128 and prev_led_on:
             prev_led_on = False
+            save_clip = True
             print("Turned off!")
+
+        if save_clip:
+            save_clip = False
             start_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 - 3
             end_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000 + 3
             clip_name = input_file_no_extension + "_" + str(int(cap.get(cv2.CAP_PROP_POS_MSEC))) + ".mp4"
@@ -47,7 +49,7 @@ while (True):
     else:
         break
 
-    # When everything done, release the video capture and video write objects
+# When everything done, release the video capture and video write objects
 cap.release()
 
 # Closes all the frames
