@@ -1,10 +1,10 @@
 import cv2
 
-cap = cv2.VideoCapture(2)
-print(cap.get(cv2.CAP_PROP_CONTRAST))
-print(cap.get(cv2.CAP_PROP_EXPOSURE))
-cap.set(cv2.CAP_PROP_CONTRAST, 32)  # 32
-cap.set(cv2.CAP_PROP_EXPOSURE, -6)  # -6
+cap = cv2.VideoCapture(1)
+# print(cap.get(cv2.CAP_PROP_CONTRAST))
+# print(cap.get(cv2.CAP_PROP_EXPOSURE))
+# cap.set(cv2.CAP_PROP_CONTRAST, 32)  # 32
+# cap.set(cv2.CAP_PROP_EXPOSURE, -6)  # -6
 print(cap.get(cv2.CAP_PROP_CONTRAST))
 print(cap.get(cv2.CAP_PROP_EXPOSURE))
 print(cap.get(cv2.CAP_PROP_FPS))
